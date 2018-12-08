@@ -1,46 +1,48 @@
-import React, {Component} from 'react';
-import {Segment, Item, Button, Icon} from "semantic-ui-react"
-// import LocationForm from './LocationForm';
-// import Locations from "./Locations"
-
-
-// ({ id, name, days, updateLocation, deleteLocation })
+import React, { Component } from "react";
+import { Segment, Item, Button, Icon } from "semantic-ui-react";
+import AddressForm from "./AddressForm";
+import Address from "./Address";
+import axios from "axios";
 
 class Location extends Component {
-  // state = { 
-  //   locations:[],
-  //   editing: false };
+  state = {
+    address: [],
+    editing: false
+  };
 
-  // componentDidMount() {
-  //   axios.get("/api/locations")
-  //     .then( res => {
-  //       this.setState({ locations: res.data, });
-  //     })
-  //     .catch( err => {
-  //       console.log(err);
-  //     })
-  // }
-    
-      
+  componentDidMount() {
+    axios
+      .get(`/api/locations/${this.props.id}/addresses`)
+      .then(res => {
+        this.setState({ address: res.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
-  // addLocation = (name, days) => {
-  //   axios.post('/api/trips', { name, days })
-  //   .then( fresh => {
-  //     const { trips } = this.state;
-  //     this.setState({ trips: [...trips, fresh.data] });
-  //   })
-  // }
+  addAddress = (street, city, state, zip) => {
+    axios
+      .post(`/api/locations/${this.props.id}/addresses`, {
+        street,
+        city,
+        state,
+        zip
+      })
+      .then(fresh => {
+        this.setState({ address: [fresh.data] });
+      });
+  };
 
-  // updateTrip = (id) => {
-  //   // TODO make api call to update todo
-  //   // TODO update state
-  // }
+  updateTrip = id => {
+    // TODO make api call to update address
+    // TODO update state
+  };
 
-  // deleteTrip = (id) => {
-  //   // TODO make api call to delete todo
-  //   // TODO remove it from state
-  // }
-
+  deleteTrip = id => {
+    // TODO make api call to delete address
+    // TODO remove it from state
+  };
 
   // toggleEdit = () => this.setState({ editing: !this.state.editing });
 
@@ -50,32 +52,36 @@ class Location extends Component {
         <Segment>
           <Item>
             <Item.Content>
-                <Item.Header as="h2" style={{ marginLeft: "15px" }}>{ this.props.name }</Item.Header>
-                <Item.Description style={{ marginLeft: "15px" }}>{ this.props.days }</Item.Description>
+              <Item.Header as="h2" style={{ marginLeft: "15px" }}>
+                {this.props.name}
+              </Item.Header>
+              <Item.Description style={{ marginLeft: "15px" }}>
+                {this.props.days}
+              </Item.Description>
               <Item.Extra>
-                <Button 
-                  icon 
-                  color="red" 
-                  size="mini" 
-                  onClick={() => this.props.deleteLocation(this.props.id)} 
-                  style={{ marginLeft: "15px", }}
-                  >
+                <Button
+                  icon
+                  color="red"
+                  size="mini"
+                  onClick={() => this.props.deleteLocation(this.props.id)}
+                  style={{ marginLeft: "15px" }}
+                >
                   <Icon name="trash" />
                 </Button>
               </Item.Extra>
-                {/* <Segment>
-                  <LocationForm addLocation={this.addLocation} />
-                  <br />
-                  <br />
-                  <Locations
-                    locations={this.state.locations}
-                    updateLocation={this.updateLocation}
-                    deleteLocation={this.deleteLocation}
-                    />
-                </Segment> */}
+              <Segment>
+                <AddressForm addAddress={this.addAddress} />
+                <br />
+                <br />
+                <Address
+                  address={this.state.address}
+                  updateAddress={this.updateAddress}
+                  deleteAddress={this.deleteAddress}
+                />
+              </Segment>
             </Item.Content>
           </Item>
-      </Segment>
+        </Segment>
       </div>
     );
   }
