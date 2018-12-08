@@ -35,16 +35,6 @@ ActiveRecord::Schema.define(version: 2018_12_08_164626) do
     t.index ["trip_id"], name: "index_locations_on_trip_id"
   end
 
-  create_table "streets", force: :cascade do |t|
-    t.string "city"
-    t.string "state"
-    t.integer "zip"
-    t.bigint "location_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["location_id"], name: "index_streets_on_location_id"
-  end
-
   create_table "trips", force: :cascade do |t|
     t.string "name"
     t.datetime "start_date"
@@ -55,5 +45,4 @@ ActiveRecord::Schema.define(version: 2018_12_08_164626) do
 
   add_foreign_key "addresses", "locations"
   add_foreign_key "locations", "trips"
-  add_foreign_key "streets", "locations"
 end
