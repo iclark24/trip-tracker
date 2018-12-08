@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Icon, Item} from "semantic-ui-react"
+import {Header, Button, Icon} from "semantic-ui-react"
+import LocationForm from './LocationForm';
 
 
 // ({ id, name, start_date, end_date, updateTrip, deleteTrip })
